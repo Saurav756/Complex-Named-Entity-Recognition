@@ -15,6 +15,75 @@ Our approach combines **transformer-based models** (e.g., BERT, XLM-RoBERTa) wit
 
 ---
 
+## 🔍 New: Generative AI-Powered Document Chatbot (RAG + NER)
+
+We now support a **document-based Q&A chatbot** powered by:
+
+- 📄 **Document ingestion** (PDF, TXT)
+- 🔍 **FAISS vector store** for efficient chunk retrieval
+- 🤖 **GPT-4 or GPT-3.5** for natural language answers
+- 🧠 **BERT+CRF NER** applied on context chunks for entity-aware reasoning
+
+This allows users to:
+- Ask natural questions about documents.
+- Get answers grounded in retrieved text.
+- Preserve entity structure for domain-specific applications.
+
+---
+
+## 💡 Architecture
+
+```text
+[ Document Upload ]
+        ↓
+[ Text Chunking ]
+        ↓
+[ Sentence Embedding ]
+        ↓
+[ FAISS Vector Store ]
+        ↓
+[ Query → Embedding → Retrieve Top-k Chunks ]
+        ↓
+[ BERT+CRF NER Inference on Chunks ]
+        ↓
+[ Prompt Built with Entity-Tags + Context ]
+        ↓
+[ GPT-4 Answer Generation ]
+```
+
+---
+
+## 🧪 How to Use the Chatbot
+
+```bash
+# Step 1: Install deps
+pip install -r chatbot/requirements.txt
+
+# Step 2: Set your OpenAI key
+export OPENAI_API_KEY="sk-..."
+
+# Step 3: Run chatbot
+python chatbot/document_loader.py       # Load & chunk text
+python chatbot/embedder.py              # Embed & build FAISS index
+python chatbot/rag_chat.py              # Ask: GPT with NER-powered retrieval
+```
+
+---
+
+## 📁 Chatbot Code Structure
+
+```
+chatbot/
+├── document_loader.py   # PDF/TXT ingestion & chunking
+├── embedder.py          # SentenceTransformers + FAISS
+├── retriever.py         # Query → Top-k chunk retrieval
+├── ner_infer.py         # BERT-CRF model inference
+├── rag_chat.py          # Full pipeline with GPT answer generation
+├── requirements.txt
+```
+
+---
+
 ## Key Features
 
 - **Advanced Architecture**: Combines BERT embeddings with CRF for structured predictions.
@@ -77,14 +146,15 @@ Our approach combines **transformer-based models** (e.g., BERT, XLM-RoBERTa) wit
 
 ## Future Work
 
-- **Optimization**: Explore methods like knowledge distillation and quantization to make the framework suitable for resource-constrained environments.
-- **Uncertainty Quantification**: Integrate techniques to handle ambiguous cases and provide confidence scores for predictions.
-- **Nested Entity Recognition**: Improve handling of nested and overlapping entities with advanced architectures.
+- **UI Integration**: Streamlit or Gradio interface for chatbot.
+- **NER Heatmap Visualization**: Visualize tagged entity spans in retrieved context.
+- **Open-Source LLM Support**: Add support for LLaMA, Mistral, Claude, etc.
+- **Confidence Filtering**: Add thresholds for entity tags.
 
 ---
 
 ## Conclusion
 
-This project presents a robust framework for tackling complex NER tasks, demonstrating significant improvements over baseline methods. By leveraging transformer-based embeddings and CRF for structured prediction, the approach addresses challenges in multilingual and domain-specific contexts, paving the way for future advancements in NER systems.
+This project presents a robust framework for tackling complex NER tasks while extending its utility through a retrieval-augmented chatbot. The integration of BERT-CRF with GPT-based generation allows entity-aware reasoning over unstructured documents, opening the door for enterprise applications in legal, finance, medical, and multilingual domains.
 
 ---
