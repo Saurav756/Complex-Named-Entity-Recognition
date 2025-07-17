@@ -1,4 +1,4 @@
-# ComplexNER
+# ComplexNER + Chatbot
 
 **ComplexNER** is a repository dedicated to Named Entity Recognition (NER) using BERT (Bidirectional Encoder Representations from Transformers) combined with Conditional Random Fields (CRF). The project provides implementations for NER in both English and Hindi languages and explores advanced methods to tackle complex NER scenarios like nested and overlapping entities.
 
